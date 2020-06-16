@@ -3,7 +3,7 @@
 - AWS CloudFormation StackSets extends the functionality of stacks by enabling you to create, update, or delete stacks across multiple accounts and regions with a single operation.
 - Using an administrator account, you define and manage an AWS CloudFormation template, and use the template as the basis for provisioning stacks into selected target accounts across specified regions.
 
-
+![StackSet](https://github.com/jabadesj/CloudFormation_Day_3/blob/master/stacksets/images/stackset.png)
 
 ## StackSets Concepts 
 
@@ -23,6 +23,8 @@ Because stack sets perform stack operations across multiple accounts, before you
 - Enable Trusted Access with AWS Organizations (Service Managed)
 
 ## Grant Self-Managed Permissions
+
+![stackset-perm](https://github.com/jabadesj/CloudFormation_Day_3/blob/master/stacksets/images/stacksets_perms_master_target.png)
 
 - Before you create a stack set with self-managed permissions, you need to establish a trust relationship between the administrator and target accounts by creating IAM roles in each account.
 - In the administrator account, create an IAM role named **AWSCloudFormationStackSetAdministrationRole**. 
