@@ -7,8 +7,8 @@
     },
     "Mappings" : {
         "AccountMap" : {
-            "184242689732"        : {"RoleName" : "MasterRole"},
-            "686207302084"        : {"RoleName" : "TargetRole"}
+            "AccountID1"        : {"RoleName" : "RoleA"},
+            "AccountID2"        : {"RoleName" : "RoleB"}
           }
       },
     "Conditions" : {
