@@ -1,0 +1,65 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "BucketSuffix": {
+            "Type": "String"
+        }
+    },
+    "Mappings" : {
+        "AccountMap" : {
+            "184242689732"        : {"RoleName" : "MasterRole"},
+            "686207302084"        : {"RoleName" : "TargetRole"}
+          }
+      },
+    "Conditions" : {
+        "IsRegionIAD" : {"Fn::Equals" : [{ "Ref" : "AWS::Region" } , "us-east-1"]}
+      },
+    "Resources": {
+        "RootRole": {
+            "Type": "AWS::IAM::Role",
+            "Condition" : "IsRegionIAD",
+            "Properties": {
+                "RoleName": { "Fn::FindInMap" : [ "AccountMap", { "Ref" : "AWS::AccountId" }, "RoleName"]},
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyName": "AdminPolicy",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": "*",
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "Bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": { "Fn::Sub": "${AWS::AccountId}-${AWS::Region}-${BucketSuffix}" }
+            }
+        }
+    }
+}
+
