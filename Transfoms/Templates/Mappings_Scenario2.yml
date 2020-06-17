@@ -1,0 +1,8 @@
+Mappings:
+  LambdaConfiguration:
+    Prod:
+        MemorySize: 512
+        Timeout: 128
+    Dev:
+        MemorySize: 256
+        Timeout: 60
