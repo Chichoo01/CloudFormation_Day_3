@@ -26,20 +26,6 @@ Let's take a look at a simple template that makes use of the `AWS::Include` Macr
 
 **NOTE:** *When using `Transforms` you would need to use the CreateChangeSet Operation in order to view the transformed template*
 
-```bash
-CHANGE_SET_ID=$(aws cloudformation create-change-set \
-                    --stack-name instance --change-set-type CREATE \
-                    --change-set-name initial --region us-east-1 \
-                    --template-url https://deepak-content.s3.amazonaws.com/instance.yml \
-                    --capabilities CAPABILITY_IAM --query Id --output text)
-```
-
-Execute the change-set:
-
-```bash
-aws cloudformation execute-change-set --change-set-name $CHANGE_SET_ID
-```
-
 You can see that the base-template didn't have the user-data content or a Mappings section. But upon transformation the template has these sections.
 
 `AWS::Include` is a simple substitution macro. Next, we are going to explore `AWS::Serverless` a much more complicated transform.
