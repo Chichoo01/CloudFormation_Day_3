@@ -1,0 +1,49 @@
+Transform:
+  - Name: AWS::Include
+    Parameters:
+      Location: s3://deepak-content/mappings.yml
+Parameters:
+  Environment:
+    Type: String
+    AllowedValues:
+      - Prod
+      - Dev
+      - QA
+    Description: Choose the Environment for this Instance.
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Choose the keypair for SSH access
+  VPC:
+    Type: AWS::EC2::VPC::Id
+    Description: Choose the VPC to launch the instance into. 
+  BaseSG:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Choose the SG to associated with the instance
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: Choose the subnet to place the instance into. 
+
+Resources:
+
+    Instance:
+      Type: AWS::EC2::Instance
+      Properties:
+        SubnetId: !Ref SubnetId
+        ImageId:
+          Fn::FindInMap:
+            - InstanceProperties
+            - !Ref Environment
+            - ImageId
+        KeyName: !Ref KeyName
+        InstanceType:
+          Fn::FindInMap:
+            - InstanceProperties
+            - !Ref Environment
+            - InstanceType
+        SecurityGroupIds:
+          - !Ref BaseSG
+        UserData:
+          Fn::Transform:
+            Name: AWS::Include
+            Parameters:
+              Location: s3://deepak-content/userdata.yml

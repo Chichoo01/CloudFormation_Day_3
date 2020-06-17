@@ -1,0 +1,4 @@
+Fn::Base64:
+  Fn::Sub: |
+    #!/bin/bash
+    echo "This instance was launched by the stack ${AWS::StackName}"

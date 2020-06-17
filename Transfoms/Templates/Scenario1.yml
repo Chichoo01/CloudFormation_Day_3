@@ -1,0 +1,20 @@
+Transform:
+  - Name: AWS::Serverless-2016-10-31
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+  MessagingFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        S3Event:
+          Type: S3
+          Properties:
+            Bucket: !Ref Bucket
+            Events: s3:ObjectCreated:*
+      Runtime: python3.7
+      Handler: index.handler
+      InlineCode: |
+        def handler(event, context):
+            print("An Object {} was uploaded to the bucket {} from the IP {}".format(event['Records'][0]['s3']['object']['key'],event['Records'][0]['s3']['bucket']['name'],event['Records'][0]['requestParameters']['sourceIPAddress']))      
+  
