@@ -58,6 +58,10 @@ A serverless application is a combination of Lambda functions, event sources, an
 
 #### Example Scenario 1: Create an AWS Lambda Function that prints a message when an object is uploaded to S3.
 
+<img src="https://deepak-content.s3.amazonaws.com/Scenario1.png"
+     alt="CreateStack Process"
+     style="float: center; margin-right: 10px;" />
+
 ```bash
 CHANGE_SET_ID=$(aws cloudformation create-change-set \
                     --stack-name Scenario1 --change-set-type CREATE \
@@ -72,7 +76,9 @@ Execute the change-set:
 aws cloudformation execute-change-set --change-set-name $CHANGE_SET_ID
 ```
 
+#### Example Scenario 2: 
 
+Create a Serverless Web Application that displays the current time when accessing the application on path /time.                    
 
 
 
