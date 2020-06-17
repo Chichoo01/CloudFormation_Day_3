@@ -110,7 +110,7 @@ aws cloudformation execute-change-set --change-set-id $CHANGE_SET_ID
      style="float: center; margin-right: 10px;" />
 
 ---
-### Create Operations
+### Delete Operations
 ---
 
 A stack in the following states can be deleted:
