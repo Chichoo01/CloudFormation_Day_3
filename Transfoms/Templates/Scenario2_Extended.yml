@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion : '2010-09-09'
+
+Outputs:
+    ExecutionUrl:
+        Value: !Sub https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/time
+
+Parameters:
+    Environment: 
+        Type: String
+        AllowedValues: 
+            - Prod
+            - Dev
+Transform: 
+    - Name: AWS::Include
+      Parameters:
+        Location: s3://deepak-content/Mappings_Scenario2.yml
+    - Name: AWS::Serverless-2016-10-31
+
+Description: A time application.
+
+Resources:
+  TimeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: python3.7
+      MemorySize:
+        Fn::FindInMap:
+            - LambdaConfiguration
+            - !Ref Environment
+            - MemorySize
+      Timeout:  
+        Fn::FindInMap:
+            - LambdaConfiguration
+            - !Ref Environment
+            - MemorySize  
+      InlineCode: | 
+        from datetime import datetime
+
+        def handler(event, context):
+            eastern_time = datetime.now()
+            return {
+                'statusCode': 200,
+                'body': "{}".format(eastern_time)
+                
+            }
+      Events:
+        GetApi:
+          Type: Api
+          Properties:
+            Path: /time
+            Method: GET

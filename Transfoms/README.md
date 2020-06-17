@@ -86,3 +86,38 @@ For this scenario we would make use of the following serverless components:
 
   * AWS::Serverless::Function
   * AWS::Serverless::Api
+
+Steps To Create:
+
+```bash
+CHANGE_SET_ID=$(aws cloudformation create-change-set \
+                    --stack-name Scenario2 --change-set-type CREATE \
+                    --change-set-name initial --region us-east-1 \
+                    --template-url https://deepak-content.s3.amazonaws.com/Scenario2.yml \
+                    --capabilities CAPABILITY_IAM --query Id --output text)
+```
+
+Execute the change-set:
+
+```bash
+aws cloudformation execute-change-set --change-set-name $CHANGE_SET_ID
+```
+
+#### Example Scenario 3:
+
+Using Multiple Change Sets. Let's take a look at the example:
+
+```bash
+CHANGE_SET_ID=$(aws cloudformation create-change-set \
+                    --stack-name Scenario2 --change-set-type UPDATE \
+                    --change-set-name extended --region us-east-1 \
+                    --template-url https://deepak-content.s3.amazonaws.com/Scenario2_Extended.yml \
+                    --parameters ParameterKey=Environment,ParameterValue=Prod \
+                    --capabilities CAPABILITY_IAM --query Id --output text)
+```
+
+Execute the change-set:
+
+```bash
+aws cloudformation execute-change-set --change-set-name $CHANGE_SET_ID
+```
