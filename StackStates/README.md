@@ -34,7 +34,7 @@ CHANGE_SET_ID=$(aws cloudformation create-change-set \
 ```
 
 ```bash
-aws cloudformation execute-change-set --change-set-id $CHANGE_SET_ID
+aws cloudformation execute-change-set --change-set-name $CHANGE_SET_ID
 ```
 
 ---
