@@ -1,0 +1,11 @@
+Mappings:
+    InstanceProperties:
+        Prod:
+            ImageId: ami-0ff8a91507f77f867
+            InstanceType: m5.large
+        Dev: 
+            ImageId: ami-0ff8a91507f77f867	
+            InstanceType: t2.large
+        QA:
+            ImageId: ami-0ff8a91507f77f867	
+            InstanceType: t2.micro
