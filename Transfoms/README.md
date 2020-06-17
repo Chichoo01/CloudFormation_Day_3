@@ -62,6 +62,8 @@ A serverless application is a combination of Lambda functions, event sources, an
      alt="CreateStack Process"
      style="float: center; margin-right: 10px;" />
 
+#### Steps to Create the Stack:
+
 ```bash
 CHANGE_SET_ID=$(aws cloudformation create-change-set \
                     --stack-name Scenario1 --change-set-type CREATE \
@@ -78,7 +80,9 @@ aws cloudformation execute-change-set --change-set-name $CHANGE_SET_ID
 
 #### Example Scenario 2: 
 
-Create a Serverless Web Application that displays the current time when accessing the application on path /time.                    
+Create a Serverless Web Application that displays the current time when accessing the application on path /time.  
 
+For this scenario we would make use of the following serverless components:
 
-
+  * AWS::Serverless::Function
+  * AWS::Serverless::Api

@@ -13,7 +13,9 @@
 Let's try this out:
 
 ```bash
-aws cloudformation create-stack --template-url https://deepak-content.s3.amazonaws.com/bucket.yml --stack-name training-1
+aws cloudformation create-stack \
+    --template-url https://deepak-content.s3.amazonaws.com/bucket.yml \
+    --stack-name training-1
 ```
 It's also possible to create a stack as change-set. Note: When a new stack is created as a change-set, the stack will not have any resources until the change-set is executed. 
 
@@ -25,7 +27,10 @@ It's also possible to create a stack as change-set. Note: When a new stack is cr
 * Accept Changes - ExecuteChangeSet API
 
 ```bash
-CHANGE_SET_ID=$(aws cloudformation create-change-set --template-url https://deepak-content.s3.amazonaws.com/bucket.yml --change-set-type CREATE --stack-name training-2 --change-set-name initial --query Id --output text)
+CHANGE_SET_ID=$(aws cloudformation create-change-set \
+                  --template-url https://deepak-content.s3.amazonaws.com/bucket.yml \
+                  --change-set-type CREATE --stack-name training-2 \
+                  --change-set-name initial --query Id --output text)
 ```
 
 ```bash
@@ -62,12 +67,17 @@ This will fail with `An error occurred (ValidationError) when calling the Update
 
 
 ```bash
-aws cloudformation update-stack --template-url https://deepak-content.s3.amazonaws.com/bucket_new.yml --stack-name training-1
+aws cloudformation update-stack \
+      --template-url https://deepak-content.s3.amazonaws.com/bucket_new.yml \
+      --stack-name training-1
 ```
 (or)
 
 ```bash
-CHANGE_SET_ID=$(aws cloudformation create-change-set --template-url https://deepak-content.s3.amazonaws.com/bucket_new.yml --change-set-type UPDATE --stack-name training-1 --change-set-name initial --query Id --output text)
+CHANGE_SET_ID=$(aws cloudformation create-change-set \
+      --template-url https://deepak-content.s3.amazonaws.com/bucket_new.yml \
+      --change-set-type UPDATE --stack-name training-1 \
+      --change-set-name initial --query Id --output text)
 ```
 
 ```bash
@@ -124,3 +134,16 @@ A stack in the following states can be deleted:
      style="float: center; margin-right: 10px;" />
 
 **Note:** *A stack can go to DELETE_FAILED if a resource fails to delete. For example, `TerminationProtection` can be enabled on a `AWS::EC2::Instance` resource which would cause the instance termination to fail. In that case, you can disable termination protection and re-attempt deletion.*
+
+### Test this out:
+
+1. Upload a file to the bucket that was created in the stack earlier `training-1`.
+2. Later, attempt deleting that stack. The stack should fail to delete as the S3 Bucket has files with `NotEmptyBucket` Exception.
+
+* Now, you can either empty the bucket and re-attempt deleting the bucket; or, 
+* Retain the bucket and continue with stack-deletion using the following command:
+
+```bash
+aws cloudformation delete-stack --stack-name training-1 \
+                                --retain-resources Bucket
+```
